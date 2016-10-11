@@ -39,12 +39,14 @@ class WebCrawlerGui(QtWidgets.QTabWidget):
         self.updateStatusSignal.emit(site)
 
     def crawler(self, site):
+        maxLevel, _ = QtWidgets.QInputDialog.getText(self, "Input", "Max pages level: ", flags=QtCore.Qt.WindowTitleHint)
+
         self.urlTab.progressBar.setVisible(True)
         self.urlTab.progressBar.setMaximum(0)
         self.urlTab.progressBar.setMinimum(0)
         self.urlTab.progressBar.setValue(0)
 
-        self.webCrawler = WebCrawler(site, self.db, 3, self.updateStatus)
+        self.webCrawler = WebCrawler(site, self.db, int(maxLevel), self.updateStatus)
 
         thr = threading.Thread(target=self.webCrawler.searchThread)
         thr.start()
