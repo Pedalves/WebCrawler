@@ -2,14 +2,16 @@
 -- Web Crawler
 ----------------------------------
 
-CREATE TABLE IF NOT EXISTS site(
-    site_name   TEXT    PRIMARY KEY,
-    content     TEXT    DEFAULT NULL
+CREATE TABLE IF NOT EXISTS url(
+    url_input      TEXT    PRIMARY KEY
 );
 
-CREATE TABLE IF NOT EXISTS parent_site(
-    site_name   TEXT    PRIMARY KEY,
-    parent      TEXT    PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS site(
+    url_input   TEXT,
+    site_name   TEXT,
     content     TEXT    DEFAULT NULL,
-    FOREIGN KEY (parent) REFERENCES site(site_name) ON DELETE CASCADE
+    parent      TEXT    DEFAULT NULL,
+    PRIMARY KEY(url_input, site_name) ON CONFLICT REPLACE,
+    FOREIGN KEY(url_input) REFERENCES url(url_input) ON DELETE CASCADE
 );
+
